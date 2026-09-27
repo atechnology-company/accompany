@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "accompany",
+  "main": "dist/worker.js",
+  "compatibility_date": "2026-07-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+  },
+  "assets": {
+    // Hydration bundle + css + icons. Every HTML route is rendered by the
+    // Worker, so page requests must reach the Worker first.
+    "directory": "./dist/public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/", "/cissa", "/cupboard"],
+  },
+  "routes": [
+    {
+      "pattern": "accompany.tsc.hk",
+      "custom_domain": true,
+    },
+  ],
+}

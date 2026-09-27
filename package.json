@@ -1,0 +1,28 @@
+{
+  "name": "@atechnology-company/accompany",
+  "private": true,
+  "version": "0.1.0",
+  "description": "accompany.tsc.hk — cissa + cupboard, the cloud that stays with you. Svelte 5 on moonshine, deployed on Cloudflare Workers.",
+  "type": "module",
+  "scripts": {
+    "build": "bun build.ts",
+    "dev": "bun run build && bunx wrangler dev",
+    "deploy": "bun run build && bunx wrangler deploy",
+    "typecheck": "bunx tsc --noEmit",
+    "format": "bunx prettier --check .",
+    "lint": "bunx oxlint ."
+  },
+  "dependencies": {
+    "@tschk/moonshine": "^0.4.1",
+    "gsap": "^3.13.0",
+    "lenis": "^1.3.4",
+    "svelte": "5.46.4",
+    "three": "0.134.0",
+    "vanta": "0.5.24"
+  },
+  "devDependencies": {
+    "@types/bun": "1.3.14",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.45.0"
+  }
+}
