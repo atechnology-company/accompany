@@ -1,0 +1,12 @@
+div class="home-closing relative overflow-hidden"
+  p class="field-label block"
+    "good company. wherever you go."
+  div class="closing-title flex flex-col"
+    span
+      "make yourself"
+    span
+      "at home."
+  a href="https://github.com/atechnology-company" target="_blank" rel="noreferrer" class="closing-link inline-flex"
+    "come build with us"
+    span aria-hidden="true" class="material-symbol symbol-outward"
+      ""

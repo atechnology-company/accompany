@@ -24,7 +24,7 @@
       <a href="/cupboard">cupboard</a>
     </div>
     <a class="nav-ext mono" href="https://cupboard.tsc.hk" target="_blank" rel="noreferrer">
-      cupboard.tsc.hk&nbsp;&nearr;
+      cupboard.tsc.hk <span class="material-symbol symbol-outward" aria-hidden="true"></span>
     </a>
   </nav>
 </header>

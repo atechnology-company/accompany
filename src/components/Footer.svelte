@@ -22,25 +22,25 @@
       <h4 class="mono">products</h4>
       <a href="/cissa">cissa</a>
       <a href="/cupboard">cupboard</a>
-      <a href="https://cupboard.tsc.hk" target="_blank" rel="noreferrer">cupboard.tsc.hk &nearr;</a>
+      <a href="https://cupboard.tsc.hk" target="_blank" rel="noreferrer">cupboard.tsc.hk <span class="material-symbol symbol-outward" aria-hidden="true"></span></a>
     </nav>
 
     <nav class="footer-col" aria-label="Family">
       <h4 class="mono">family</h4>
-      <a href="https://moonshine.tsc.hk" target="_blank" rel="noreferrer">moonshine.tsc.hk &nearr;</a>
-      <a href="https://crepuscularity.tsc.hk" target="_blank" rel="noreferrer">crepuscularity.tsc.hk &nearr;</a>
-      <a href="https://tsc.hk" target="_blank" rel="noreferrer">tsc.hk &nearr;</a>
+      <a href="https://moonshine.tsc.hk" target="_blank" rel="noreferrer">moonshine.tsc.hk <span class="material-symbol symbol-outward" aria-hidden="true"></span></a>
+      <a href="https://crepuscularity.tsc.hk" target="_blank" rel="noreferrer">crepuscularity.tsc.hk <span class="material-symbol symbol-outward" aria-hidden="true"></span></a>
+      <a href="https://tsc.hk" target="_blank" rel="noreferrer">tsc.hk <span class="material-symbol symbol-outward" aria-hidden="true"></span></a>
     </nav>
 
     <nav class="footer-col" aria-label="Open source">
       <h4 class="mono">open source</h4>
-      <a href="https://github.com/atechnology-company" target="_blank" rel="noreferrer">atechnology-company &nearr;</a>
-      <a href="https://github.com/atechnology-company/monoprotocol" target="_blank" rel="noreferrer">monoprotocol &nearr;</a>
+      <a href="https://github.com/atechnology-company" target="_blank" rel="noreferrer">atechnology-company <span class="material-symbol symbol-outward" aria-hidden="true"></span></a>
+      <a href="https://github.com/atechnology-company/monoprotocol" target="_blank" rel="noreferrer">monoprotocol <span class="material-symbol symbol-outward" aria-hidden="true"></span></a>
     </nav>
   </div>
 
   <div class="wrap footer-base mono dim">
-    <span>&copy; {year} a technology company</span>
+    <span>&copy; {year} atechnology company</span>
     <span>no cookies &middot; no trackers &middot; no investors page</span>
   </div>
 </footer>
