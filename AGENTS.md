@@ -10,7 +10,8 @@ https://accompany.tsc.hk.
   `src/worker.ts`; hydration = `hydrate` in `src/client.ts`.
 - Client state: `createSignal` from `@tschk/moonshine` in `src/lib/store.ts`.
   Do not add another state library.
-- Global styles ship through UnoCSS preflights in `src/lib/uno-preflight.ts`.
+- Global styles ship through UnoCSS rules + preflights
+  (`src/lib/uno-rules.ts`, `src/lib/uno-preflight.ts`).
   Never put `<style>` blocks in `.svelte` files — the build drops them (see
   `svelte-plugin.ts`).
 - Deploy shape: Cloudflare Worker (`wrangler.jsonc`) with `ASSETS` binding,
