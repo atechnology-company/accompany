@@ -15,9 +15,11 @@ export const sveltePlugin = (generate: "server" | "client") => ({
         runes: true,
       });
       if (css?.code) {
-        // Styles belong in src/app.css; components must not carry <style> so
+        // Styles belong in UnoCSS preflights; components must not carry <style> so
         // SSR output and hydration stay deterministic. Surface violations.
-        console.warn(`[svelte] ${args.path} has a <style> block — move it to app.css`);
+        console.warn(
+          `[svelte] ${args.path} has a <style> block — move it to UnoCSS config preflights`,
+        );
       }
       return { contents: js.code, loader: "js" };
     });

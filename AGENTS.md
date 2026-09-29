@@ -10,8 +10,9 @@ https://accompany.tsc.hk.
   `src/worker.ts`; hydration = `hydrate` in `src/client.ts`.
 - Client state: `createSignal` from `@tschk/moonshine` in `src/lib/store.ts`.
   Do not add another state library.
-- All styles in `src/app.css`. Never put `<style>` blocks in `.svelte` files —
-  the build drops them (see `svelte-plugin.ts`).
+- Global styles ship through UnoCSS preflights in `src/lib/uno-preflight.ts`.
+  Never put `<style>` blocks in `.svelte` files — the build drops them (see
+  `svelte-plugin.ts`).
 - Deploy shape: Cloudflare Worker (`wrangler.jsonc`) with `ASSETS` binding,
   `run_worker_first` for page routes, and the `accompany.tsc.hk` custom
   domain. Same conventions as cupboard.tsc.hk and moonshine.tsc.hk.

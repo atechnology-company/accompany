@@ -1,4 +1,4 @@
-/* accompany — design system
+export const appPreflight = String.raw`/* accompany — design system
    dusk sky, liquid glass, geist. lowercase voice. */
 
 :root {
@@ -2434,3 +2434,4 @@ a {
     visibility: visible;
   }
 }
+`;

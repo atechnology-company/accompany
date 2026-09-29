@@ -43,11 +43,11 @@ this prepared texture instead of running the image-processing pass themselves.
 - `src/crepus/FieldNotes.crepus` is parsed and rendered by the official
   `@tschk/crepus-moonshine` adapter at build time. Its trusted static markup
   is included in Svelte SSR, without shipping the Rust/WASM parser to browsers.
-- UnoCSS scans `src/**/*.{svelte,ts,tsx,crepus}` with preflights disabled and
-  writes `dist/public/assets/uno.css`. The Worker loads it before `app.css` so
-  the existing stylesheet remains authoritative.
-- Components carry **no `<style>` blocks** — custom styling lives in
-  `src/app.css`, with generated UnoCSS utilities alongside it.
+- UnoCSS scans `src/**/*.{svelte,ts,tsx,crepus}` and writes
+  `dist/public/assets/uno.css`, including utility output and custom preflight
+  CSS from `src/lib/uno-preflight.ts`.
+- Components carry **no `<style>` blocks** — custom styling stays in UnoCSS
+  config/preflights.
 - No investors page, by design.
 
 ## Commands
@@ -69,7 +69,7 @@ bun test            # request/SSR checks against the built Worker
 src/
   worker.ts          cloudflare worker entry: SSR pages, assets fallback
   client.ts          hydration entry
-  app.css            entire design system
+  lib/uno-preflight.ts custom global CSS injected into UnoCSS output
   lib/routes.ts      route table + metadata
   lib/store.ts       moonshine signal kernel state
   lib/effects.ts     lenis + gsap + glare/magnetic/tilt behaviors
