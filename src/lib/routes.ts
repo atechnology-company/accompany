@@ -25,7 +25,7 @@ export const routes: Record<string, RouteMeta> = {
   "/cupboard": {
     title: "cupboard — the cloud, but it's yours",
     description:
-      "A small box at home that holds the real copy of your stuff and everything your AI remembers. Now with local inference on Jetson, a Cissa backend, self-hosted sites and services, and long-lived AI coworkers.",
+      "A personal cloud on hardware you own. Keep files, tabs, clipboard, and AI memory together at home, with local inference routing and access scoped per app. Prelaunch hardware, built in the open.",
     component: Cupboard,
   },
 };
