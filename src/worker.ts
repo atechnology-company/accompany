@@ -33,7 +33,6 @@ function page(pathname: string, status: number): Response {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,450;0,500;0,700;0,750;1,450&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/assets/uno.css"/>
-<link rel="stylesheet" href="/assets/app.css"/>
 ${out.head}
 </head>
 <body>

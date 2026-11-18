@@ -85,9 +85,11 @@ const notesIR = parseCrepus(
 );
 await Bun.write(
   "src/generated/field-notes.json",
-  JSON.stringify({
-    html: renderToStaticMarkup(renderCrepusIr(notesIR)),
-  }),
+  `${JSON.stringify(
+    { html: renderToStaticMarkup(renderCrepusIr(notesIR)) },
+    null,
+    2,
+  )}\n`,
 );
 
 run("bunx", [
@@ -96,8 +98,6 @@ run("bunx", [
   "src/**/*.{svelte,ts,tsx,crepus}",
   "--config",
   "uno.config.ts",
-  "--preflights",
-  "false",
   "--out-file",
   "dist/public/assets/uno.css",
 ]);
@@ -140,7 +140,6 @@ if (!worker.success) {
 }
 
 cpSync("public", "dist/public", { recursive: true });
-await Bun.write("dist/public/assets/app.css", Bun.file("src/app.css"));
 
 console.log(
   `build ok — client ${(Bun.file("dist/public/assets/client.js").size / 1024) | 0}kb, worker ${(Bun.file("dist/worker.js").size / 1024) | 0}kb, uno ${(Bun.file("dist/public/assets/uno.css").size / 1024) | 0}kb`,

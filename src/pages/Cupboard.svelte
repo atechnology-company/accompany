@@ -49,8 +49,8 @@
         <h1 id="cupboard-title">your digital life.<br /><span>at home.</span></h1>
         <p class="product-deck">a small box for your files, tabs, clipboard, and ai memory.<br class="cupboard-desktop-break" /> the main copy stays on hardware you own.</p>
         <div class="cupboard-actions">
-          <a class="cupboard-button" href="#cupboard-story">explore cupboard <span aria-hidden="true">↓</span></a>
-          <a class="cupboard-link" href="https://github.com/atechnology-company/cupboard" target="_blank" rel="noreferrer">follow the build <span aria-hidden="true">↗</span></a>
+          <a class="cupboard-button" href="#cupboard-story">explore cupboard <span class="material-symbol symbol-downward" aria-hidden="true"></span></a>
+          <a class="cupboard-link" href="https://github.com/atechnology-company/cupboard" target="_blank" rel="noreferrer">follow the build <span class="material-symbol symbol-outward" aria-hidden="true"></span></a>
         </div>
       </div>
       <figure class="product-hero-object cupboard-object">
@@ -141,7 +141,7 @@
       <p class="product-lede">from the operating system to the interfaces, cupboard is built on open foundations. understand what holds your data, and follow how it is made.</p>
       <div class="cupboard-foundation-grid">
         {#each foundations as [label, name, body, href] (name)}
-          <a {href} target="_blank" rel="noreferrer"><span class="field-label">{label}<span aria-hidden="true">↗</span></span><h3>{name}</h3><p>{body}</p></a>
+          <a {href} target="_blank" rel="noreferrer"><span class="field-label">{label}<span class="material-symbol symbol-outward" aria-hidden="true"></span></span><h3>{name}</h3><p>{body}</p></a>
         {/each}
       </div>
     </section>

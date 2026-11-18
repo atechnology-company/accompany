@@ -25,59 +25,85 @@ export function initEffects(): void {
   if (hero) {
     // Pause compositor-only light and shadow movement outside the viewport.
     let visible = true;
-    const syncLight = () => hero.style.setProperty("--ambient-play", document.hidden || !visible ? "paused" : "running");
+    const syncLight = () =>
+      hero.style.setProperty(
+        "--ambient-play",
+        document.hidden || !visible ? "paused" : "running",
+      );
     ScrollTrigger.create({
       trigger: hero,
       start: "top bottom",
       end: "bottom top",
-      onToggle: (self) => { visible = self.isActive; syncLight(); },
+      onToggle: (self) => {
+        visible = self.isActive;
+        syncLight();
+      },
     });
     document.addEventListener("visibilitychange", syncLight);
     syncLight();
   }
-  document.querySelectorAll<HTMLElement>(".product-hero-object").forEach((el) => {
-    gsap.to(el, {
-      y: -16,
-      duration: 4.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
+  document
+    .querySelectorAll<HTMLElement>(".product-hero-object")
+    .forEach((el) => {
+      gsap.to(el, {
+        y: -16,
+        duration: 4.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
     });
-  });
-  document.querySelectorAll<HTMLElement>(".journal-photo, .product-editorial-image").forEach((frame) => {
-    gsap.fromTo(frame.querySelector("img"), { yPercent: -5, scale: 1.12 }, {
-      yPercent: 5,
-      ease: "none",
-      scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: 1 },
+  document
+    .querySelectorAll<HTMLElement>(".journal-photo, .product-editorial-image")
+    .forEach((frame) => {
+      gsap.fromTo(
+        frame.querySelector("img"),
+        { yPercent: -5, scale: 1.12 },
+        {
+          yPercent: 5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: frame,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        },
+      );
     });
-  });
 
   // Native summary click also covers Enter/Space. Keep details open until its
   // closing animation finishes so content can animate in both directions.
-  document.querySelectorAll<HTMLDetailsElement>("details").forEach((details) => {
-    const summary = details.querySelector("summary");
-    if (!summary) return;
-    let expanded = details.open;
-    summary.addEventListener("click", (event) => {
-      event.preventDefault();
-      expanded = !expanded;
-      const start = details.getBoundingClientRect().height;
-      gsap.killTweensOf(details);
-      details.open = true;
-      details.style.height = "auto";
-      const end = expanded ? details.offsetHeight : summary.offsetHeight;
-      gsap.fromTo(details, { height: start, overflow: "hidden" }, {
-        height: end,
-        duration: 0.42,
-        ease: "power3.inOut",
-        onComplete: () => {
-          details.open = expanded;
-          gsap.set(details, { clearProps: "height,overflow" });
-          ScrollTrigger.refresh();
-        },
+  document
+    .querySelectorAll<HTMLDetailsElement>("details")
+    .forEach((details) => {
+      const summary = details.querySelector("summary");
+      if (!summary) return;
+      let expanded = details.open;
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+        expanded = !expanded;
+        const start = details.getBoundingClientRect().height;
+        gsap.killTweensOf(details);
+        details.open = true;
+        details.style.height = "auto";
+        const end = expanded ? details.offsetHeight : summary.offsetHeight;
+        gsap.fromTo(
+          details,
+          { height: start, overflow: "hidden" },
+          {
+            height: end,
+            duration: 0.42,
+            ease: "power3.inOut",
+            onComplete: () => {
+              details.open = expanded;
+              gsap.set(details, { clearProps: "height,overflow" });
+              ScrollTrigger.refresh();
+            },
+          },
+        );
       });
     });
-  });
 
   const emblem = document.querySelector("[data-home-object]");
   if (emblem) {
@@ -135,15 +161,19 @@ export function initEffects(): void {
   }
 
   // Section reveals on scroll.
-  document.querySelectorAll<HTMLElement>("[data-reveal], .product-intro-grid, .product-feature-heading, .product-editorial-copy, .product-pairing h2").forEach((el) => {
-    gsap.from(el, {
-      y: 28,
-      autoAlpha: 0,
-      duration: 0.9,
-      ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 85%" },
+  document
+    .querySelectorAll<HTMLElement>(
+      "[data-reveal], .product-intro-grid, .product-feature-heading, .product-editorial-copy, .product-pairing h2",
+    )
+    .forEach((el) => {
+      gsap.from(el, {
+        y: 28,
+        autoAlpha: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 85%" },
+      });
     });
-  });
   document
     .querySelectorAll<HTMLElement>("[data-reveal-group]")
     .forEach((group) => {

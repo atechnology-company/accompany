@@ -12,9 +12,12 @@ export function mountFancyLabel(
   container: Element,
   { text, variant }: FancyLabelOptions,
 ) {
-  const Root = () => variant === "swap"
-    ? <LetterSwapForward label={text} staggerDuration={0.018} />
-    : <ScrambleIn text={text} />;
+  const Root = () =>
+    variant === "swap" ? (
+      <LetterSwapForward label={text} staggerDuration={0.018} />
+    ) : (
+      <ScrambleIn text={text} />
+    );
   const app = createApp({ root: Root, className: "fancy-label-island" });
   app.mount(container);
   return app;
