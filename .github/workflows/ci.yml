@@ -26,7 +26,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libxkbcommon-x11-0
           curl --fail --location --retry 3 \
-            https://github.com/tschk/crepuscularity/releases/download/v0.16.5/crepus-x86_64-linux \
+            https://github.com/softwarecorporation/crepuscularity/releases/download/v0.16.5/crepus-x86_64-linux \
             --output "$RUNNER_TEMP/crepus"
           echo "c04560674e122ebe78bd85ed917bbfc1fc263ec0394672b8474c63fbdf6cf4d8  $RUNNER_TEMP/crepus" | sha256sum --check
           chmod +x "$RUNNER_TEMP/crepus"

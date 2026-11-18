@@ -15,10 +15,10 @@
     ["04", "take it with you", "open foundations keep your state portable, beyond any one app."],
   ];
   const foundations = [
-    ["operating system", "alpenglow", "the open appliance operating system underneath cupboard.", "https://github.com/tschk/alpenglow"],
+    ["operating system", "alpenglow", "the open appliance operating system underneath cupboard.", "https://github.com/softwarecorporation/alpenglow"],
     ["owned state", "mono protocol", "a shared protocol for your files, browser state, clipboard, and memory.", "https://github.com/atechnology-company/monoprotocol"],
-    ["shared interfaces", "crepuscularity", "one interface foundation across the devices you use.", "https://github.com/tschk/crepuscularity"],
-    ["browser research", "rv8", "a future browser foundation. today’s desktop clients use webkit.", "https://github.com/tschk/rv8"],
+    ["shared interfaces", "crepuscularity", "one interface foundation across the devices you use.", "https://github.com/softwarecorporation/crepuscularity"],
+    ["browser research", "rv8", "a future browser foundation. today’s desktop clients use webkit.", "https://github.com/softwarecorporation/rv8"],
   ];
   const features = [
     ["01", "one place to pick up", "files, tabs, clipboard, and ai memory: synced through the open mono protocol, across the devices you use. memory is a first-class object, with per-app access."],

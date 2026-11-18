@@ -2,7 +2,7 @@
 
 **accompany.tsc.hk** — cissa + cupboard, the cloud that stays with you.
 
-Svelte 5 (runes) on [moonshine](https://github.com/tschk/moonshine)'s signal
+Svelte 5 (runes) on [moonshine](https://github.com/softwarecorporation/moonshine)'s signal
 kernel, with Crepuscularity-authored Svelte sections and UnoCSS utilities,
 server-rendered in a Cloudflare Worker with an `ASSETS` binding and a
 `custom_domain` route — the same shape as moonshine.tsc.hk and
