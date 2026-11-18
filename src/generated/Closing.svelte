@@ -5,10 +5,11 @@
   function toArray(v: unknown): any[] {
     return Array.isArray(v) ? v : [];
   }
+
 </script>
 
 <div class="home-closing relative overflow-hidden">
-  <span class="field-label block">good company. wherever you go.</span>
+  <p class="field-label block">good company. wherever you go.</p>
   <h2 class="closing-title flex flex-col">
     <span>make yourself</span>
     <span>at home.</span>

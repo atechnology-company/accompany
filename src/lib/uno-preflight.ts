@@ -1,4 +1,12 @@
-export const appPreflight = String.raw`:root {
+import type { Preflight } from "unocss";
+
+// Structural selectors and at-rules retain their order between class rules.
+export const appPreflights: Preflight[] = [
+  {
+    layer: "app-000",
+    getCSS: () => String.raw`/* accompany — design system
+   dusk sky, liquid glass, geist. lowercase voice. */
+:root {
   --bg: #070b18;
   --ink: #f2f4ff;
   --muted: #b9c1dd;
@@ -12,21 +20,19 @@ export const appPreflight = String.raw`:root {
   --glass-border: rgba(255, 255, 255, 0.14);
   --radius: 20px;
 }
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 html {
   color-scheme: dark;
 }
-
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: "Geist",
+  font-family:
+    "Geist",
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -36,52 +42,71 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
-
-::selection {
+/* Local Material Symbols Rounded SVGs: never platform-dependent emoji glyphs. */`,
+  },
+  {
+    layer: "app-002",
+    getCSS: () => String.raw`::selection {
   background: rgba(255, 185, 135, 0.35);
 }
-
 :focus-visible {
   outline: 2px solid #8ea2ff;
   outline-offset: 3px;
   border-radius: 6px;
-}
-
-.sky canvas {
+}`,
+  },
+  {
+    layer: "app-004",
+    getCSS: () => String.raw`/* ---------- sky ---------- */`,
+  },
+  {
+    layer: "app-006",
+    getCSS: () => String.raw`.sky canvas {
   display: block;
 }
-
 .sky .vanta-canvas {
   position: absolute;
   inset: 0;
   z-index: 1;
-}
-
-#app {
+}`,
+  },
+  {
+    layer: "app-008",
+    getCSS: () => String.raw`#app {
   position: relative;
   z-index: 1;
 }
-
-.display.big {
+/* ---------- primitives ---------- */`,
+  },
+  {
+    layer: "app-010",
+    getCSS: () => String.raw`.display.big {
   font-size: clamp(3rem, 8vw, 7rem);
 }
-
+.grad,
+.grad-cissa,
+.grad-cupboard {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}`,
+  },
+  {
+    layer: "app-012",
+    getCSS: () => String.raw`/* liquid refraction on the nav, where supported */
 @supports (backdrop-filter: url(#liquid-glass) blur(4px)) {
   .nav {
     backdrop-filter: url(#liquid-glass) blur(6px) saturate(170%);
     -webkit-backdrop-filter: blur(6px) saturate(170%);
   }
 }
-
 [data-glare] {
   overflow: hidden;
 }
-
 [data-glare]::after {
   content: "";
   position: absolute;
@@ -96,40 +121,52 @@ a {
   transition: opacity 0.35s ease;
   pointer-events: none;
 }
-
 [data-glare]:hover::after {
   opacity: 1;
 }
-
-.nav.scrolled {
+/* ---------- nav ---------- */`,
+  },
+  {
+    layer: "app-014",
+    getCSS: () => String.raw`.nav.scrolled {
   background: rgba(10, 15, 30, 0.55);
-  box-shadow: 0 18px 50px rgba(2, 5, 14, 0.55),
+  box-shadow:
+    0 18px 50px rgba(2, 5, 14, 0.55),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-
-.nav-links a {
+}`,
+  },
+  {
+    layer: "app-016",
+    getCSS: () => String.raw`.nav-links a {
   padding: 8px 15px;
   border-radius: 999px;
   color: var(--muted);
-  transition: background 0.25s ease,
+  transition:
+    background 0.25s ease,
     color 0.25s ease;
 }
-
 .nav-links a:hover {
   background: rgba(255, 255, 255, 0.1);
   color: var(--ink);
-}
-
-.nav-ext:hover {
+}`,
+  },
+  {
+    layer: "app-018",
+    getCSS: () => String.raw`.nav-ext:hover {
   color: var(--ink);
   border-color: var(--line);
 }
-
-.hero-title.small {
+/* ---------- hero ---------- */`,
+  },
+  {
+    layer: "app-020",
+    getCSS: () => String.raw`.hero-title.small {
   font-size: clamp(2.4rem, 7.5vw, 5.5rem);
-}
-
-@keyframes bob {
+}`,
+  },
+  {
+    layer: "app-022",
+    getCSS: () => String.raw`@keyframes bob {
   0%,
   100% {
     transform: translateY(0);
@@ -140,109 +177,145 @@ a {
     opacity: 1;
   }
 }
-
-.btn:hover {
+/* ---------- buttons ---------- */`,
+  },
+  {
+    layer: "app-024",
+    getCSS: () => String.raw`.btn:hover {
   background: rgba(255, 255, 255, 0.13);
-}
-
-.marquee:hover .marquee-track {
+}`,
+  },
+  {
+    layer: "app-026",
+    getCSS: () => String.raw`/* ---------- marquee ---------- */`,
+  },
+  {
+    layer: "app-028",
+    getCSS: () => String.raw`.marquee:hover .marquee-track {
   animation-play-state: paused;
-}
-
-@keyframes marquee {
+}`,
+  },
+  {
+    layer: "app-030",
+    getCSS: () => String.raw`@keyframes marquee {
   to {
     transform: translateX(-50%);
   }
 }
-
-.card:hover {
+/* ---------- cards ---------- */`,
+  },
+  {
+    layer: "app-032",
+    getCSS: () => String.raw`.card:hover {
   border-color: rgba(255, 255, 255, 0.3);
 }
-
 .card.cissa:hover {
   border-color: rgba(255, 154, 98, 0.55);
 }
-
 .card.cupboard:hover {
   border-color: rgba(110, 231, 200, 0.55);
-}
-
-.card-body p {
+}`,
+  },
+  {
+    layer: "app-034",
+    getCSS: () => String.raw`.card-body p {
   color: var(--muted);
   font-size: 0.98rem;
-}
-
-.card:hover .card-go {
+}`,
+  },
+  {
+    layer: "app-036",
+    getCSS: () => String.raw`.card:hover .card-go {
   color: var(--ink);
 }
-
-.step h3 {
+/* ---------- steps ---------- */`,
+  },
+  {
+    layer: "app-038",
+    getCSS: () => String.raw`.step h3 {
   font-size: 1.2rem;
   font-weight: 660;
   letter-spacing: -0.02em;
   margin: 10px 0 8px;
 }
-
 .step p {
   color: var(--muted);
   font-size: 0.93rem;
 }
-
-.term pre {
+/* ---------- terminal ---------- */`,
+  },
+  {
+    layer: "app-040",
+    getCSS: () => String.raw`.term pre {
   padding: 20px 22px;
   font-size: 13.5px;
   line-height: 1.8;
   overflow-x: auto;
-}
-
-.feature h3 {
+}`,
+  },
+  {
+    layer: "app-042",
+    getCSS: () => String.raw`/* ---------- features ---------- */`,
+  },
+  {
+    layer: "app-044",
+    getCSS: () => String.raw`.feature h3 {
   font-size: 1.06rem;
   font-weight: 650;
   letter-spacing: -0.015em;
   margin-bottom: 8px;
 }
-
 .feature p {
   color: var(--muted);
   font-size: 0.93rem;
-}
-
-.feature-link a {
+}`,
+  },
+  {
+    layer: "app-046",
+    getCSS: () => String.raw`.feature-link a {
   font-size: 13px;
   letter-spacing: 0.1em;
   color: var(--cupboard-soft);
 }
-
 .feature-link a:hover {
   color: var(--ink);
 }
-
-.closing .hero-cta {
+/* ---------- page-specific ---------- */`,
+  },
+  {
+    layer: "app-048",
+    getCSS: () => String.raw`.closing .hero-cta {
   margin-top: 28px;
 }
-
-.footer-brand .brand {
+/* ---------- footer ---------- */`,
+  },
+  {
+    layer: "app-050",
+    getCSS: () => String.raw`.footer-brand .brand {
   margin-bottom: 14px;
-}
-
-.footer-col h4 {
+}`,
+  },
+  {
+    layer: "app-052",
+    getCSS: () => String.raw`.footer-col h4 {
   font-size: 11.5px;
   font-weight: 500;
   letter-spacing: 0.18em;
   color: var(--dim);
   margin-bottom: 4px;
 }
-
 .footer-col a {
   color: var(--muted);
   font-size: 0.95rem;
   transition: color 0.25s ease;
 }
-
 .footer-col a:hover {
   color: var(--ink);
-}
-
+}`,
+  },
+  {
+    layer: "app-054",
+    getCSS: () => String.raw`/* ---------- responsive ---------- */
 @media (max-width: 960px) {
   .duo,
   .split-2 {
@@ -261,7 +334,6 @@ a {
     grid-template-columns: 1fr 1fr;
   }
 }
-
 @media (max-width: 640px) {
   .nav {
     gap: 0.7rem;
@@ -290,7 +362,7 @@ a {
     width: min(320px, 82vw);
   }
 }
-
+/* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track,
   .scroll-cue {
@@ -303,13 +375,16 @@ a {
     transition: none;
   }
 }
-
-.home .field-label {
-  font: 10px/1.6 "IBM Plex Mono",
+/* Open sky / field notes. */`,
+  },
+  {
+    layer: "app-056",
+    getCSS: () => String.raw`.home .field-label {
+  font:
+    10px/1.6 "IBM Plex Mono",
     monospace;
   letter-spacing: 0.045em;
 }
-
 .fancy-label-island .sr-only {
   position: absolute;
   width: 1px;
@@ -319,72 +394,66 @@ a {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-
 .fancy-label-island .inline-block {
   display: inline-block;
   white-space: pre-wrap;
-}
-
-.home :focus-visible {
+}`,
+  },
+  {
+    layer: "app-058",
+    getCSS: () => String.raw`.home :focus-visible {
   outline-color: #525d25;
 }
-
-.home a {
-  -webkit-tap-highlight-color: transparent;
-}
-
+.home a,
 .home button {
   -webkit-tap-highlight-color: transparent;
-}
-
-.home-skip:focus {
+}`,
+  },
+  {
+    layer: "app-060",
+    getCSS: () => String.raw`.home-skip:focus {
   top: 12px;
-}
-
-.home-brand span {
+}`,
+  },
+  {
+    layer: "app-062",
+    getCSS: () => String.raw`.home-brand span {
   font-size: 26px;
   font-weight: 400;
 }
-
 .home-nav nav {
   display: flex;
   gap: 36px;
 }
-
 .home-nav a {
   padding-block: 10px;
 }
-
-.home-nav nav a:hover {
-  text-decoration: underline;
-  text-underline-offset: 5px;
-}
-
+.home-nav nav a:hover,
 .home-footer a:hover {
   text-decoration: underline;
   text-underline-offset: 5px;
-}
-
-.home-source i {
+}`,
+  },
+  {
+    layer: "app-064",
+    getCSS: () => String.raw`.home-source i {
   height: 7px;
   width: 7px;
   background: #ad420f;
   border-radius: 50%;
 }
-
 .home-source > span {
   margin-left: 15px;
-}
-
-.hero-landscape.landscape-ready {
-  opacity: 1;
-}
-
-.home:not([data-intro-managed="true"]) .hero-landscape {
-  animation: intro-fallback 1.8s both;
-}
-
-.home-hero::after {
+}`,
+  },
+  {
+    layer: "app-066",
+    getCSS: () => String.raw`.hero-landscape.landscape-ready { opacity: 1; }
+.home:not([data-intro-managed="true"]) .hero-landscape { animation: intro-fallback 1.8s both; }`,
+  },
+  {
+    layer: "app-068",
+    getCSS: () => String.raw`.home-hero::after {
   content: "";
   position: absolute;
   inset: 0 0 27%;
@@ -395,7 +464,6 @@ a {
   animation: daylight-sweep 14s ease-in-out infinite alternate;
   animation-play-state: var(--ambient-play, running);
 }
-
 .hero-object::after {
   content: "";
   position: absolute;
@@ -410,106 +478,108 @@ a {
   pointer-events: none;
   z-index: -1;
 }
-
 @keyframes daylight-sweep {
   from { transform: translateX(-22%); opacity: 0.45; }
   to { transform: translateX(22%); opacity: 0.8; }
 }
-
 @keyframes daylight-shadow {
   from { transform: translateX(16px) scaleX(.85); opacity: 0.6; }
   to { transform: translateX(-16px) scaleX(1.1); opacity: 1; }
 }
-
 .home-atmosphere .sky {
   position: absolute;
   mix-blend-mode: soft-light;
   opacity: 0.55;
 }
-
 .home-atmosphere .sky[data-dithered] {
   background: transparent;
   mix-blend-mode: normal;
   opacity: 1;
   mask-image: linear-gradient(#000 35%, #0009 60%, transparent 90%);
 }
-
-.home-atmosphere .sky[data-dithered] .sky-static {
-  display: none;
-}
-
+.home-atmosphere .sky[data-dithered] .sky-static,
 .home-atmosphere .sky[data-dithered] .sky-scrim {
   display: none;
 }
-
 .home-atmosphere .vanta-canvas {
   opacity: 0.78;
 }
-
-.paper-emblem > svg {
+.hero-topline,
+.hero-bottomline {
+  position: absolute;
+  inset-inline: 3.2vw;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}`,
+  },
+  {
+    layer: "app-070",
+    getCSS: () => String.raw`.paper-emblem > svg {
   position: absolute;
   inset: 0;
 }
-
 .paper-emblem > svg[hidden] {
   display: none;
 }
-
 .paper-emblem canvas {
   display: block;
 }
-
-.paper-emblem > :is(canvas {
-  animation: emblem-turn 48s linear infinite;
-}
-
-svg) {
-  animation: emblem-turn 48s linear infinite;
-}
-
-.paper-emblem > canvas {
-  animation: intro-reveal .85s both, emblem-turn 48s linear infinite;
-}
-
-@keyframes emblem-turn { to { transform: rotate(360deg); } }
-
-.hero-bottomline > .field-label {
+.paper-emblem > :is(canvas, svg) { animation: emblem-turn 48s linear infinite; }
+.paper-emblem > canvas { animation: intro-reveal .85s both, emblem-turn 48s linear infinite; }
+@keyframes emblem-turn { to { transform: rotate(360deg); } }`,
+  },
+  {
+    layer: "app-072",
+    getCSS: () => String.raw`.hero-bottomline > .field-label {
   color: #fffef1;
   text-shadow: 0 1px 5px #172719;
-}
-
-.explore-link > span:last-child {
+}`,
+  },
+  {
+    layer: "app-074",
+    getCSS: () => String.raw`.explore-link > span:last-child {
   font-size: 24px;
   transition: transform 0.3s;
 }
-
 .explore-link:hover > span:last-child {
   transform: translateY(5px);
-}
-
-.home-wordmark sup {
-  font: 14px "IBM Plex Mono",
+}`,
+  },
+  {
+    layer: "app-076",
+    getCSS: () => String.raw`.home-wordmark sup {
+  font:
+    14px "IBM Plex Mono",
     monospace;
   position: absolute;
   right: 0.3%;
   bottom: 22%;
   letter-spacing: 0;
 }
-
-.home h2 {
+.companions-section,
+.outlook-section {
+  padding: 60px 5vw 90px;
+  scroll-margin-top: 20px;
+}`,
+  },
+  {
+    layer: "app-078",
+    getCSS: () => String.raw`.home h2 {
   font-size: clamp(40px, 5.2vw, 78px);
   line-height: 1.02;
   letter-spacing: -0.055em;
   font-weight: 450;
 }
-
 .companions-heading > p {
   font-size: 14px;
   line-height: 1.6;
   padding-right: 3vw;
-}
-
-.product-still img {
+}`,
+  },
+  {
+    layer: "app-080",
+    getCSS: () => String.raw`.product-still img {
   display: block;
   width: 100%;
   height: auto;
@@ -517,15 +587,16 @@ svg) {
   object-fit: cover;
   mix-blend-mode: multiply;
 }
-
 .product-still figcaption {
   position: absolute;
   right: 0;
   bottom: 14px;
   color: #555b50;
-}
-
-.product-caption h3 {
+}`,
+  },
+  {
+    layer: "app-082",
+    getCSS: () => String.raw`.product-caption h3 {
   font-size: 44px;
   font-weight: 450;
   letter-spacing: -0.05em;
@@ -533,22 +604,21 @@ svg) {
   justify-content: space-between;
   margin-block: 8px;
 }
-
 .product-caption h3 span {
   font-size: 30px;
   transition: transform 0.3s;
 }
-
 .product-caption:hover h3 span {
   transform: translate(5px, -5px);
 }
-
 .product-caption p {
   font-size: 14px;
   color: #51564c;
-}
-
-.companion-switch::after {
+}`,
+  },
+  {
+    layer: "app-084",
+    getCSS: () => String.raw`.companion-switch::after {
   content: "";
   position: absolute;
   bottom: -1px;
@@ -558,11 +628,7 @@ svg) {
   background: var(--home-ink);
   transition: transform 0.45s cubic-bezier(.22, 1, .36, 1);
 }
-
-.companion-switch.keep-selected::after {
-  transform: translateX(calc(100% + 28px));
-}
-
+.companion-switch.keep-selected::after { transform: translateX(calc(100% + 28px)); }
 .companion-switch button {
   font: inherit;
   font-size: 16px;
@@ -573,31 +639,33 @@ svg) {
   padding: 14px 0;
   cursor: pointer;
 }
-
 .companion-switch button[aria-pressed="true"] {
   color: var(--home-ink);
 }
-
 .companion-switch button span {
-  font: 9px "IBM Plex Mono",
+  font:
+    9px "IBM Plex Mono",
     monospace;
   vertical-align: super;
   margin-left: 10px;
-}
-
-.story-panel h2 {
+}`,
+  },
+  {
+    layer: "app-086",
+    getCSS: () => String.raw`.story-panel h2 {
   white-space: pre-line;
   font-size: clamp(34px, 4.1vw, 64px);
 }
-
 .story-panel > p {
   max-width: 36ch;
   font-size: 15px;
   line-height: 1.7;
   margin-block: 26px;
-}
-
-.story-image img {
+}`,
+  },
+  {
+    layer: "app-088",
+    getCSS: () => String.raw`.story-image img {
   position: absolute;
   inset: 0 auto 0 0;
   width: 100%;
@@ -605,21 +673,23 @@ svg) {
   object-fit: contain;
   object-position: center;
   mix-blend-mode: multiply;
-}
-
-.outlook-section h2 {
+}`,
+  },
+  {
+    layer: "app-090",
+    getCSS: () => String.raw`.outlook-section h2 {
   font-size: clamp(48px, 7.5vw, 116px);
   margin-block: 90px 70px;
 }
-
 .outlook-section h2 em {
   font-weight: 450;
-}
-
-.possibilities details {
+}`,
+  },
+  {
+    layer: "app-092",
+    getCSS: () => String.raw`.possibilities details {
   border-top: 1px solid #25292255;
 }
-
 .possibilities summary {
   list-style: none;
   display: grid;
@@ -630,44 +700,45 @@ svg) {
   cursor: pointer;
   font-size: 17px;
 }
-
 .possibilities summary::-webkit-details-marker {
   display: none;
-}
-
-.possibilities details[open] .detail-plus {
+}`,
+  },
+  {
+    layer: "app-094",
+    getCSS: () => String.raw`.possibilities details[open] .detail-plus {
   transform: rotate(45deg);
 }
-
 .possibilities details p {
   font-size: 15px;
   line-height: 1.7;
   padding: 0 40px 25px;
   color: #51564c;
-}
-
-.home-closing h2 {
+}`,
+  },
+  {
+    layer: "app-096",
+    getCSS: () => String.raw`.home-closing h2 {
   font-size: clamp(65px, 10vw, 150px);
   margin: 50px 0 35px;
-}
-
-.home-footer > div {
+}`,
+  },
+  {
+    layer: "app-098",
+    getCSS: () => String.raw`.home-footer > div {
   display: flex;
   flex-direction: column;
   gap: 14px;
   font-size: 12px;
 }
-
 .home-footer > p {
   text-align: right;
 }
-
 @media (min-width: 1600px) {
   .home-wordmark {
     font-size: 17.3vw;
   }
 }
-
 @media (max-width: 800px) {
   .home-nav {
     padding: 16px 5vw;
@@ -747,7 +818,6 @@ svg) {
     text-align: left;
   }
 }
-
 @media (max-width: 480px) {
   .home-brand {
     font-size: 21px;
@@ -864,7 +934,6 @@ svg) {
     grid-column: 1 / -1;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .home *,
   .home *::before,
@@ -872,140 +941,153 @@ svg) {
     animation: none !important;
     transition: none !important;
   }
-}
-
-.product-concept.compact {
+}`,
+  },
+  {
+    layer: "app-100",
+    getCSS: () => String.raw`.product-concept.compact {
   width: 220px;
 }
-
 .product-concept img {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 8px;
 }
-
 .product-concept figcaption {
   font-size: 10px;
   margin-top: 12px;
   color: var(--muted);
   text-align: center;
 }
-
-.field-journal h2 {
+.fancy-label,
+.fancy-label-island {
+  display: inline-block;
+  vertical-align: bottom;
+}`,
+  },
+  {
+    layer: "app-102",
+    getCSS: () => String.raw`.field-journal h2 {
   margin: 65px 0;
-}
-
-.journal-entry:last-child {
+}`,
+  },
+  {
+    layer: "app-104",
+    getCSS: () => String.raw`.journal-entry:last-child {
   margin-top: 150px;
-}
-
-.journal-photo img {
+}`,
+  },
+  {
+    layer: "app-106",
+    getCSS: () => String.raw`.journal-photo img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: scale 0.7s;
 }
-
 .journal-entry:hover img {
   scale: 1.045;
-}
-
-.journal-caption > span:last-child {
+}`,
+  },
+  {
+    layer: "app-108",
+    getCSS: () => String.raw`.journal-caption > span:last-child {
   font-size: 26px;
 }
-
 .journal-entry h3 {
   font-size: clamp(17px, 1.8vw, 30px);
   font-weight: 450;
   letter-spacing: -0.045em;
   margin-block: 10px 15px;
 }
-
 @media (max-width: 600px) {
   .field-journal { padding-block: 45px; }
   .field-journal h2 { margin-block: 45px; }
   .field-journal-grid { grid-template-columns: 1fr; gap: 45px; }
   .journal-entry:last-child { margin-top: 0; }
 }
-
 @media (max-width: 360px) {
   .hero-thought { font-size: 20px; }
   .hero-bottomline { gap: 18px; }
   .explore-link { max-width: 130px; }
   .product-caption h3 { font-size: 29px; }
 }
-
-.product-page .field-label {
-  font: 10px/1.6 "IBM Plex Mono",
+/* Product pages: open-sky editorial detail treatment. */`,
+  },
+  {
+    layer: "app-110",
+    getCSS: () => String.raw`.product-page .field-label {
+  font:
+    10px/1.6 "IBM Plex Mono",
     monospace;
   letter-spacing: 0.045em;
 }
-
 .product-page :focus-visible {
   outline-color: #525d25;
 }
-
-.product-page a {
-  -webkit-tap-highlight-color: transparent;
-}
-
+.product-page a,
 .product-page summary {
   -webkit-tap-highlight-color: transparent;
-}
-
-.product-skip:focus {
+}`,
+  },
+  {
+    layer: "app-112",
+    getCSS: () => String.raw`.product-skip:focus {
   top: 12px;
-}
-
-.product-nav nav {
+}`,
+  },
+  {
+    layer: "app-114",
+    getCSS: () => String.raw`.product-nav nav {
   display: flex;
   gap: 36px;
 }
-
-.product-nav nav a {
+.product-nav nav a,
+.product-nav-back {
   padding-block: 10px;
 }
-
-.product-nav a:hover {
-  text-decoration: underline;
-  text-underline-offset: 5px;
-}
-
+.product-nav a:hover,
 .product-footer a:hover {
   text-decoration: underline;
   text-underline-offset: 5px;
 }
-
 .product-nav [aria-current="page"] {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 5px;
-}
-
+}`,
+  },
+  {
+    layer: "app-116",
+    getCSS: () => String.raw`.product-sky,
 .product-sky .sky {
   position: absolute;
   inset: 0;
-}
-
-.product-sky .sky {
+}`,
+  },
+  {
+    layer: "app-118",
+    getCSS: () => String.raw`.product-sky .sky {
   z-index: 0;
   opacity: 0.65;
 }
-
 .product-sky::after {
   position: absolute;
   z-index: 1;
   inset: 0;
   content: "";
-  background: linear-gradient(180deg, #f7f2e240 0%, transparent 40%, #eeece4 100%),
+  background:
+    linear-gradient(180deg, #f7f2e240 0%, transparent 40%, #eeece4 100%),
     radial-gradient(#4853412b 0.45px, transparent 0.6px);
   background-size: auto, 3px 3px;
   pointer-events: none;
-}
-
-.product-hero h1 {
+}`,
+  },
+  {
+    layer: "app-120",
+    getCSS: () => String.raw`.product-hero h1 {
   max-width: 100%;
   font-size: clamp(4.6rem, 15.8vw, 18rem);
   font-weight: 450;
@@ -1013,97 +1095,110 @@ svg) {
   letter-spacing: -0.09em;
   overflow-wrap: anywhere;
 }
-
 .product-hero h1 span {
   color: var(--product-accent);
-}
-
-.product-hero-object img {
+}`,
+  },
+  {
+    layer: "app-122",
+    getCSS: () => String.raw`.product-hero-object img {
   display: block;
   width: 100%;
   height: auto;
   max-height: 54svh;
   object-fit: contain;
   mix-blend-mode: multiply;
-}
-
-.product-hero-object figcaption {
+}`,
+  },
+  {
+    layer: "app-124",
+    getCSS: () => String.raw`.product-hero-object figcaption {
   position: absolute;
   right: 0;
   bottom: -22px;
   white-space: nowrap;
-}
-
-.product-scroll-link span {
+}`,
+  },
+  {
+    layer: "app-126",
+    getCSS: () => String.raw`.product-scroll-link span {
   font-size: 21px;
 }
-
-.product-page h2 {
+.product-intro,
+.product-features {
+  padding: clamp(56px, 8vw, 130px) 5vw;
+}`,
+  },
+  {
+    layer: "app-128",
+    getCSS: () => String.raw`.product-page h2 {
   font-size: clamp(43px, 6.1vw, 94px);
   font-weight: 450;
   line-height: 0.98;
   letter-spacing: -0.065em;
   text-wrap: balance;
 }
-
-.product-editorial-copy > p:not(.field-label) {
-  color: var(--product-muted);
-  font-size: clamp(16px, 1.35vw, 20px);
-  line-height: 1.6;
-  text-wrap: pretty;
-}
-
+.product-lede,
+.product-editorial-copy > p:not(.field-label),
 .product-pairing > p:not(.field-label) {
   color: var(--product-muted);
   font-size: clamp(16px, 1.35vw, 20px);
   line-height: 1.6;
   text-wrap: pretty;
 }
-
-.product-text-link:hover > span[aria-hidden] {
-  transform: translate(4px, -4px);
+.product-text-link,
+.product-callout-link {
+  display: inline-flex;
+  justify-content: space-between;
+  gap: 70px;
+  margin-top: 32px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid currentColor;
+  font-size: 14px;
 }
-
+.product-text-link:hover > span[aria-hidden],
 .product-callout-link:hover > span[aria-hidden] {
   transform: translate(4px, -4px);
 }
-
-.product-text-link > span[aria-hidden] {
-  transition: transform 0.25s ease;
-}
-
+.product-text-link > span[aria-hidden],
 .product-callout-link > span[aria-hidden] {
   transition: transform 0.25s ease;
-}
-
-.product-editorial-image img {
+}`,
+  },
+  {
+    layer: "app-130",
+    getCSS: () => String.raw`.product-editorial-image img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
 .product-editorial-image figcaption {
   position: absolute;
   bottom: 22px;
   left: 28px;
   padding: 5px 8px;
   background: #eeece4bf;
-}
-
-.product-editorial-copy h2 {
+}`,
+  },
+  {
+    layer: "app-132",
+    getCSS: () => String.raw`.product-editorial-copy h2 {
   margin-block: 44px 27px;
   font-size: clamp(38px, 4vw, 69px);
-}
-
-.product-feature-heading > p {
+}`,
+  },
+  {
+    layer: "app-134",
+    getCSS: () => String.raw`.product-feature-heading > p {
   padding-top: 8px;
-}
-
-.product-accordion details {
+}`,
+  },
+  {
+    layer: "app-136",
+    getCSS: () => String.raw`.product-accordion details {
   border-top: 1px solid var(--product-line);
 }
-
 .product-accordion summary {
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr) 28px;
@@ -1115,45 +1210,46 @@ svg) {
   font-size: clamp(18px, 1.7vw, 25px);
   letter-spacing: -0.035em;
 }
-
 .product-accordion summary::-webkit-details-marker {
   display: none;
-}
-
-.product-accordion details[open] .product-plus {
+}`,
+  },
+  {
+    layer: "app-138",
+    getCSS: () => String.raw`.product-accordion details[open] .product-plus {
   transform: rotate(45deg);
 }
-
 .product-accordion details p {
   max-width: 61ch;
   padding: 0 58px 31px;
   color: var(--product-muted);
   font-size: 16px;
   line-height: 1.65;
-}
-
-.product-pairing h2 {
+}`,
+  },
+  {
+    layer: "app-140",
+    getCSS: () => String.raw`.product-pairing h2 {
   max-width: 11ch;
   margin-block: 47px 30px;
   font-size: clamp(49px, 7.2vw, 116px);
 }
-
 .product-pairing > p:not(.field-label) {
   max-width: 43ch;
   color: var(--product-ink);
-}
-
-.product-footer > div {
+}`,
+  },
+  {
+    layer: "app-142",
+    getCSS: () => String.raw`.product-footer > div {
   display: flex;
   flex-direction: column;
   gap: 14px;
   font-size: 12px;
 }
-
 .product-footer > p {
   text-align: right;
 }
-
 @media (max-width: 800px) {
   .product-nav {
     padding: 16px 5vw;
@@ -1228,7 +1324,6 @@ svg) {
     text-align: left;
   }
 }
-
 @media (max-width: 480px) {
   .product-nav .home-brand {
     font-size: 21px;
@@ -1332,7 +1427,6 @@ svg) {
     grid-column: 1 / -1;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .product-page *,
   .product-page *::before,
@@ -1341,134 +1435,75 @@ svg) {
     transition: none !important;
   }
 }
-
-.home :is(.home-nav {
-  animation: intro-fallback 0.8s 3.5s both;
-}
-
-.home-footer) {
-  animation: intro-fallback 0.8s 3.5s both;
-}
-
+/* Shader-first entrance. Timed CSS fallbacks also reveal server-rendered
+   content if JavaScript is unavailable or fails before hydration. */
+.home :is(.home-nav, .hero-topline, .hero-bottomline, .hero-lens, .home-wordmark, .home-footer),
 .home main > section:not(.home-hero) {
   animation: intro-fallback 0.8s 3.5s both;
 }
-
-.home[data-intro-managed="true"]:not([data-intro="ready"]) :is(.home-nav {
-  animation: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.home-footer) {
-  animation: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.home[data-intro-managed="true"]:not([data-intro="ready"]) main > section:not(.home-hero) {
-  animation: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
+.home[data-intro-managed="true"]:not([data-intro="ready"]) :is(.home-nav, .hero-topline, .hero-bottomline, .hero-lens, .home-wordmark, .home-footer),
+.home[data-intro-managed="true"]:not([data-intro="ready"]) main > section:not(.home-hero),
 .home[data-intro-managed="true"][data-intro="loading"] .hero-object .paper-emblem {
   animation: none;
   opacity: 0;
   visibility: hidden;
 }
-
-.home[data-intro="ready"] :is(.home-nav {
-  animation: intro-reveal 0.8s both;
-}
-
-.home-footer) {
-  animation: intro-reveal 0.8s both;
-}
-
+.home[data-intro="ready"] :is(.home-nav, .hero-topline, .hero-bottomline, .hero-lens, .home-wordmark, .home-footer),
 .home[data-intro="ready"] main > section:not(.home-hero) {
   animation: intro-reveal 0.8s both;
 }
-
 .home .hero-object .paper-emblem {
   animation: intro-fallback 0.85s 2.4s both;
 }
-
-.home[data-intro="logo"] .hero-object .paper-emblem {
-  animation: intro-reveal 0.85s both;
-}
-
+.home[data-intro="logo"] .hero-object .paper-emblem,
 .home[data-intro="ready"] .hero-object .paper-emblem {
   animation: intro-reveal 0.85s both;
 }
-
 @keyframes intro-fallback {
   from { opacity: 0; visibility: hidden; }
   to { opacity: 1; visibility: visible; }
 }
-
 @keyframes intro-reveal {
   from { opacity: 0; visibility: hidden; }
   to { opacity: 1; visibility: visible; }
-}
-
-.closing-playground .home-closing {
-  padding-right: 0;
-}
-
-.closing-playground h2 {
-  font-size: clamp(54px, 8.5vw, 140px);
-}
-
-.gravity-mark:active {
-  cursor: grabbing;
-}
-
-.gravity-mark img {
-  display: block;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-  filter: brightness(0.18);
-  animation: emblem-turn 24s linear infinite;
-}
-
-.product-page-cupboard .product-sky {
-  background: #c4e2e2 url("/open-sky.webp") center / cover;
-}
-
-.product-page-cupboard .product-sky .sky {
-  opacity: 0.32;
-  mix-blend-mode: soft-light;
-}
-
-.product-study img {
-  display: block;
-  width: 100%;
-  max-height: 800px;
-  object-fit: cover;
-}
-
-.product-study figcaption {
-  padding-top: 14px;
-}
-
-.cupboard-status p:not(.field-label) {
-  max-width: 65ch;
-  margin-top: 18px;
-  line-height: 1.7;
-}
-
+}`,
+  },
+  {
+    layer: "app-144",
+    getCSS:
+      () => String.raw`.closing-playground .home-closing { padding-right: 0; }
+.closing-playground h2 { font-size: clamp(54px, 8.5vw, 140px); }`,
+  },
+  {
+    layer: "app-146",
+    getCSS: () => String.raw`.gravity-mark:active { cursor: grabbing; }
+.gravity-mark img { display: block; width: 100%; height: auto; pointer-events: none; filter: brightness(0.18); animation: emblem-turn 24s linear infinite; }`,
+  },
+  {
+    layer: "app-148",
+    getCSS:
+      () => String.raw`.product-page-cupboard .product-sky { background: #c4e2e2 url("/open-sky.webp") center / cover; }
+.product-page-cupboard .product-sky .sky { opacity: 0.32; mix-blend-mode: soft-light; }`,
+  },
+  {
+    layer: "app-150",
+    getCSS:
+      () => String.raw`.product-study img { display: block; width: 100%; max-height: 800px; object-fit: cover; }
+.product-study figcaption { padding-top: 14px; }`,
+  },
+  {
+    layer: "app-152",
+    getCSS:
+      () => String.raw`.cupboard-status p:not(.field-label) { max-width: 65ch; margin-top: 18px; line-height: 1.7; }
 @media (min-width: 2200px) {
   .home-hero { height: max(100svh, 46vw); max-height: none; }
 }
-
 @media (max-width: 600px) {
   .closing-playground { grid-template-columns: 1fr; padding: 0; }
   .gravity-stage { height: 250px; min-height: 0; margin: 0 5vw 35px; }
   .closing-playground .home-closing { padding-bottom: 30px; }
 
-  
+  /* Let phone-sized copy take its own rows instead of shrinking two columns. */
   .home .field-label { font-size: 11px; line-height: 1.65; letter-spacing: .02em; }
   .home-nav { padding: 18px 6vw; }
   .home-nav nav { font-size: 13px; }
@@ -1541,7 +1576,6 @@ svg) {
   .closing-link { align-items: center; justify-content: space-between; gap: 24px; }
   .home-footer > div, .product-footer > div { font-size: 14px; line-height: 1.6; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .hero-landscape { transition: none; }
   .home-hero::after, .hero-object::after { animation: none; }
@@ -1553,18 +1587,11 @@ svg) {
     visibility: visible;
   }
 }
-
-/* Cupboard: a quiet product canvas, with the warm Mono shader as its contrast. */
-.product-page-cupboard {
-  --product-paper: #f5f5f7;
-  --product-ink: #1d1d1f;
-  --product-muted: #626267;
-  --product-line: #1d1d1f20;
-  --product-wash: #ededf0;
-  --product-accent: #72747a;
-  font-family: -apple-system, BlinkMacSystemFont, "DM Sans", sans-serif;
-}
-.product-page-cupboard .product-nav {
+/* Cupboard: a quiet product canvas, with the warm Mono shader as its contrast. */`,
+  },
+  {
+    layer: "app-154",
+    getCSS: () => String.raw`.product-page-cupboard .product-nav {
   padding: 22px 5vw;
 }
 .product-page-cupboard .cupboard-hero {
@@ -1602,35 +1629,17 @@ svg) {
   line-height: 1.5;
   letter-spacing: -0.025em;
   color: var(--product-muted);
-}
-.cupboard-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 28px;
-  margin-top: 28px;
-  font-size: 14px;
-}
-.cupboard-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 24px;
-  padding: 13px 23px;
-  border-radius: 99px;
-  background: #1d1d1f;
-  color: white;
-  transition: background 0.2s;
-}
-.cupboard-button:hover {
+}`,
+  },
+  {
+    layer: "app-156",
+    getCSS: () => String.raw`.cupboard-button:hover {
   background: #454549;
-}
-.cupboard-link {
-  display: inline-flex;
-  gap: 12px;
-  padding: 12px 0;
-}
-.cupboard-link:hover {
+}`,
+  },
+  {
+    layer: "app-158",
+    getCSS: () => String.raw`.cupboard-link:hover {
   text-decoration: underline;
   text-underline-offset: 5px;
 }
@@ -1654,17 +1663,11 @@ svg) {
   text-align: center;
   white-space: normal;
   color: #626267;
-}
-.cupboard-facts {
-  order: 2;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  width: 100%;
-  max-width: 1200px;
-  padding: 30px 0 38px;
-  border-top: 1px solid var(--product-line);
-}
-.cupboard-facts > div {
+}`,
+  },
+  {
+    layer: "app-160",
+    getCSS: () => String.raw`.cupboard-facts > div {
   display: grid;
   gap: 6px;
   padding: 0 16px;
@@ -1687,13 +1690,11 @@ svg) {
   font-weight: 550;
   line-height: 1.04;
   letter-spacing: -0.055em;
-}
-.cupboard-intro {
-  text-align: center;
-  max-width: 1440px;
-  margin: auto;
-}
-.cupboard-intro h2 {
+}`,
+  },
+  {
+    layer: "app-162",
+    getCSS: () => String.raw`.cupboard-intro h2 {
   margin-top: 24px;
 }
 .cupboard-intro h2 > span {
@@ -1702,17 +1703,11 @@ svg) {
 .cupboard-intro > .product-lede {
   max-width: 64ch;
   margin: 28px auto 0;
-}
-.cupboard-continuity {
-  max-width: 780px;
-  margin: 70px auto 76px;
-}
-.cupboard-device-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-.cupboard-device-row > span {
+}`,
+  },
+  {
+    layer: "app-164",
+    getCSS: () => String.raw`.cupboard-device-row > span {
   display: grid;
   justify-items: center;
   gap: 12px;
@@ -1723,40 +1718,22 @@ svg) {
   width: 40px;
   height: 40px;
   color: #4e5057;
-}
-.cupboard-network-lines {
-  height: 75px;
-  width: 75%;
-  margin: 20px auto 0;
-  border: 1px solid #b1b2b9;
-  border-top: 0;
-  border-radius: 0 0 24px 24px;
-  position: relative;
-}
-.cupboard-network-lines::after {
+}`,
+  },
+  {
+    layer: "app-166",
+    getCSS: () => String.raw`.cupboard-network-lines::after {
   content: "";
   position: absolute;
   height: 30px;
   top: 100%;
   left: 50%;
   border-left: 1px solid #b1b2b9;
-}
-.cupboard-hub {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 16px;
-  width: min(320px, 100%);
-  margin: 30px auto 24px;
-  padding: 30px 24px;
-  background: linear-gradient(135deg, #fff, #e7e8ec);
-  border: 1px solid #fff;
-  border-radius: 28px;
-  box-shadow:
-    0 22px 55px #33364c12,
-    inset 0 -2px 3px #1d1d1f0a;
-}
-.cupboard-hub strong {
+}`,
+  },
+  {
+    layer: "app-168",
+    getCSS: () => String.raw`.cupboard-hub strong {
   font-size: 32px;
   font-weight: 550;
   letter-spacing: -0.06em;
@@ -1773,21 +1750,11 @@ svg) {
   border-radius: 99px;
   padding: 4px 9px;
   color: #626267;
-}
-.cupboard-hub-light {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #478474;
-  box-shadow: 0 0 10px #47847440;
-}
-.cupboard-state-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  text-align: left;
-}
-.cupboard-state-grid article {
+}`,
+  },
+  {
+    layer: "app-170",
+    getCSS: () => String.raw`.cupboard-state-grid article {
   padding: clamp(28px, 4vw, 52px);
   border-radius: 28px;
   background: white;
@@ -1807,27 +1774,11 @@ svg) {
   font-size: 16px;
   line-height: 1.65;
   max-width: 48ch;
-}
-.cupboard-flow {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: #100c09;
-  color: #f5f5f7;
-  padding: clamp(70px, 9vw, 130px) 5vw;
-}
-.cupboard-gradient {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: radial-gradient(
-    ellipse at 70% 30%,
-    #8a623d88,
-    #24170c77 45%,
-    #000 90%
-  );
-}
-.cupboard-gradient canvas {
+}`,
+  },
+  {
+    layer: "app-172",
+    getCSS: () => String.raw`.cupboard-gradient canvas {
   width: 100%;
   height: 100%;
   display: block;
@@ -1838,30 +1789,20 @@ svg) {
   inset: 0;
   z-index: -1;
   background: linear-gradient(180deg, #0004, #000a);
-}
-.cupboard-flow-content {
-  max-width: 1200px;
-  margin: auto;
-}
-.cupboard-flow h2 {
+}`,
+  },
+  {
+    layer: "app-174",
+    getCSS: () => String.raw`.cupboard-flow h2 {
   margin-top: 26px;
 }
 .cupboard-flow .field-label {
   color: #e0c6ac;
-}
-.cupboard-flow-deck {
-  margin-top: 24px;
-  max-width: 38ch;
-  color: #e2d8cf;
-  font-size: 20px;
-}
-.cupboard-steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-  margin: 64px 0;
-}
-.cupboard-steps article {
+}`,
+  },
+  {
+    layer: "app-176",
+    getCSS: () => String.raw`.cupboard-steps article {
   padding-top: 22px;
   border-top: 1px solid #ffffff35;
 }
@@ -1875,23 +1816,11 @@ svg) {
   font-size: 14px;
   line-height: 1.7;
   color: #e2d8cf;
-}
-.cupboard-session {
-  max-width: 800px;
-  background: #100e0cbb;
-  border: 1px solid #ffffff25;
-  border-radius: 20px;
-  overflow: hidden;
-  backdrop-filter: blur(18px);
-}
-.cupboard-session-bar {
-  display: flex;
-  gap: 20px;
-  padding: 18px 24px;
-  border-bottom: 1px solid #ffffff20;
-  color: #a8998a;
-}
-.cupboard-session > div:not(:first-child) {
+}`,
+  },
+  {
+    layer: "app-178",
+    getCSS: () => String.raw`.cupboard-session > div:not(:first-child) {
   display: grid;
   grid-template-columns: 110px 1fr;
   gap: 16px;
@@ -1920,26 +1849,21 @@ svg) {
 .product-page-cupboard .product-features {
   max-width: 1440px;
   margin: auto;
-}
-.cupboard-foundations {
-  padding: 0 5vw clamp(70px, 9vw, 130px);
-  max-width: 1440px;
-  margin: auto;
-}
-.cupboard-foundations h2 {
+}`,
+  },
+  {
+    layer: "app-180",
+    getCSS: () => String.raw`.cupboard-foundations h2 {
   margin-top: 24px;
 }
 .cupboard-foundations > .product-lede {
   max-width: 58ch;
   margin-top: 28px;
-}
-.cupboard-foundation-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 48px;
-}
-.cupboard-foundation-grid a {
+}`,
+  },
+  {
+    layer: "app-182",
+    getCSS: () => String.raw`.cupboard-foundation-grid a {
   display: block;
   padding: 28px 24px;
   border-radius: 24px;
@@ -2071,5 +1995,6 @@ svg) {
   .product-page-cupboard .product-editorial-image {
     min-height: 290px;
   }
-}
-`;
+}`,
+  },
+];

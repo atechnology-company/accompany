@@ -47,6 +47,10 @@ this prepared texture instead of running the image-processing pass themselves.
   `dist/public/assets/uno.css`, combining utility classes with semantic
   class rules from `src/lib/uno-rules.ts` plus structural selector CSS from
   `src/lib/uno-preflight.ts`.
+  Utilities come first. The `app-NNN` internal output groups interleave class
+  rules and structural CSS in design-source order; they do not emit native
+  CSS `@layer` blocks. Keep repeated class declarations and their sort order
+  intact so responsive, reduced-motion, and later design overrides still win.
 - Components carry **no `<style>` blocks** — custom styling stays in UnoCSS
   config/preflights.
 - No investors page, by design.

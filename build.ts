@@ -85,9 +85,11 @@ const notesIR = parseCrepus(
 );
 await Bun.write(
   "src/generated/field-notes.json",
-  JSON.stringify({
-    html: renderToStaticMarkup(renderCrepusIr(notesIR)),
-  }),
+  `${JSON.stringify(
+    { html: renderToStaticMarkup(renderCrepusIr(notesIR)) },
+    null,
+    2,
+  )}\n`,
 );
 
 run("bunx", [

@@ -25,9 +25,15 @@ describe("Moonshine Svelte request pipeline (run build first)", () => {
       expect(html).toContain('href="https://tsc.hk"');
       expect(html).toContain('href="https://atechnology.company"');
       expect(html).not.toContain("a technology company");
-      expect(html).toContain('class="material-symbol symbol-asterisk" aria-hidden="true"');
-      expect(html).toContain('class="material-symbol symbol-downward" aria-hidden="true"');
-      expect(html).toContain('class="material-symbol symbol-outward" aria-hidden="true"');
+      expect(html).toContain(
+        'class="material-symbol symbol-asterisk" aria-hidden="true"',
+      );
+      expect(html).toContain(
+        'class="material-symbol symbol-downward" aria-hidden="true"',
+      );
+      expect(html).toContain(
+        'class="material-symbol symbol-outward" aria-hidden="true"',
+      );
       expect(html).not.toMatch(/[✳↗↓]/u);
       const head = await worker.fetch(
         new Request(`https://accompany.tsc.hk${path}`, { method: "HEAD" }),

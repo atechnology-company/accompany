@@ -12,6 +12,8 @@ https://accompany.tsc.hk.
   Do not add another state library.
 - Global styles ship through UnoCSS rules + preflights
   (`src/lib/uno-rules.ts`, `src/lib/uno-preflight.ts`).
+  Keep their `app-NNN` output groups and declaration sort order aligned;
+  responsive and later design overrides must follow the rules they override.
   Never put `<style>` blocks in `.svelte` files — the build drops them (see
   `svelte-plugin.ts`).
 - Deploy shape: Cloudflare Worker (`wrangler.jsonc`) with `ASSETS` binding,

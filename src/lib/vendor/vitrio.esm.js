@@ -5,7 +5,11 @@ var clamp = (v, a, b) => Math.min(Math.max(v, a), b);
 function roundedRectSDF(px, py, hw, hh, r) {
   const qx = Math.abs(px) - hw + r;
   const qy = Math.abs(py) - hh + r;
-  return Math.min(Math.max(qx, qy), 0) + Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) - r;
+  return (
+    Math.min(Math.max(qx, qy), 0) +
+    Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) -
+    r
+  );
 }
 var DEFAULTS = {
   width: 360,
@@ -21,18 +25,17 @@ var DEFAULTS = {
   edge: 0.7,
   specAngle: 135,
   tint: 0,
-  tintColor: "#ffffff"
+  tintColor: "#ffffff",
 };
-var LIVE = /* @__PURE__ */ new Set([
-  "blur",
-  "glow",
-  "tint",
-  "tintColor"
-]);
+var LIVE = /* @__PURE__ */ new Set(["blur", "glow", "tint", "tintColor"]);
 var _uid = 0;
 var _ns = "lqg" + Math.random().toString(36).slice(2, 6) + "-";
-var BLINK = typeof navigator !== "undefined" && /Chrome\/\d/.test(navigator.userAgent);
-var WEBKIT = !BLINK && typeof navigator !== "undefined" && /AppleWebKit/i.test(navigator.userAgent);
+var BLINK =
+  typeof navigator !== "undefined" && /Chrome\/\d/.test(navigator.userAgent);
+var WEBKIT =
+  !BLINK &&
+  typeof navigator !== "undefined" &&
+  /AppleWebKit/i.test(navigator.userAgent);
 var LITE_SETTLE_MS = 120;
 var LITE_BURST_MS = 160;
 var _styleEl = null;
@@ -73,7 +76,9 @@ var LiquidGlass = class {
     this.background = opts.background || null;
     this.zIndex = opts.zIndex != null ? opts.zIndex : 100;
     this.draggable = opts.draggable !== false && !opts.attachTo;
-    this._liteOn = !WEBKIT && (opts.liteMotion === true || opts.liteMotion !== false && !BLINK);
+    this._liteOn =
+      !WEBKIT &&
+      (opts.liteMotion === true || (opts.liteMotion !== false && !BLINK));
     this.params = { ...DEFAULTS };
     for (const k of Object.keys(DEFAULTS)) {
       const v = opts[k];
@@ -82,11 +87,15 @@ var LiquidGlass = class {
     this.canvas = document.createElement("canvas");
     this.ctx = this.canvas.getContext("2d", { willReadFrequently: true });
     this.specCanvas = document.createElement("canvas");
-    this.specCtx = this.specCanvas.getContext("2d", { willReadFrequently: true });
+    this.specCtx = this.specCanvas.getContext("2d", {
+      willReadFrequently: true,
+    });
     this._build();
     this._bindEvents();
-    const x = opts.x != null ? opts.x : (window.innerWidth - this.params.width) / 2;
-    const y = opts.y != null ? opts.y : (window.innerHeight - this.params.height) / 2;
+    const x =
+      opts.x != null ? opts.x : (window.innerWidth - this.params.width) / 2;
+    const y =
+      opts.y != null ? opts.y : (window.innerHeight - this.params.height) / 2;
     this.lensX = x;
     this.lensY = y;
     this.refresh();
@@ -112,9 +121,20 @@ var LiquidGlass = class {
       m[ch] = ch === 0 ? "1 0 0 0 0" : ch === 1 ? "0 1 0 0 0" : "0 0 1 0 0";
       return m.join("  ");
     };
-    const FILTER = { x: "0", y: "0", width: "100%", height: "100%", "color-interpolation-filters": "sRGB" };
+    const FILTER = {
+      x: "0",
+      y: "0",
+      width: "100%",
+      height: "100%",
+      "color-interpolation-filters": "sRGB",
+    };
     const IMG = { x: "0", y: "0", preserveAspectRatio: "none", result: "map" };
-    const DISP = { in: "SourceGraphic", in2: "map", xChannelSelector: "R", yChannelSelector: "G" };
+    const DISP = {
+      in: "SourceGraphic",
+      in2: "map",
+      xChannelSelector: "R",
+      yChannelSelector: "G",
+    };
     const svg = fe("svg", { "aria-hidden": "true" });
     svg.style.cssText = "position:absolute;width:0;height:0;overflow:hidden";
     const defs = fe("defs", {});
@@ -126,13 +146,28 @@ var LiquidGlass = class {
     this.filterFull.append(
       this.feImage,
       this.dispR,
-      fe("feColorMatrix", { in: "dr", type: "matrix", values: cm(0), result: "cr" }),
+      fe("feColorMatrix", {
+        in: "dr",
+        type: "matrix",
+        values: cm(0),
+        result: "cr",
+      }),
       this.dispG,
-      fe("feColorMatrix", { in: "dg", type: "matrix", values: cm(1), result: "cg" }),
+      fe("feColorMatrix", {
+        in: "dg",
+        type: "matrix",
+        values: cm(1),
+        result: "cg",
+      }),
       this.dispB,
-      fe("feColorMatrix", { in: "db", type: "matrix", values: cm(2), result: "cb" }),
+      fe("feColorMatrix", {
+        in: "db",
+        type: "matrix",
+        values: cm(2),
+        result: "cb",
+      }),
       fe("feBlend", { in: "cr", in2: "cg", mode: "screen", result: "rg" }),
-      fe("feBlend", { in: "rg", in2: "cb", mode: "screen" })
+      fe("feBlend", { in: "rg", in2: "cb", mode: "screen" }),
     );
     this.feImageDrag = fe("feImage", IMG);
     this.dispDrag = fe("feDisplacementMap", DISP);
@@ -149,7 +184,8 @@ var LiquidGlass = class {
     this.lensInner.className = "lqg-lens-inner";
     this.lensEl.appendChild(this.lensInner);
     this.glassEl = document.createElement("div");
-    this.glassEl.className = "lqg-glass" + (this.draggable ? " lqg-draggable" : "");
+    this.glassEl.className =
+      "lqg-glass" + (this.draggable ? " lqg-draggable" : "");
     this.glassEl.style.zIndex = String(this.zIndex + 1);
     this.specImg = document.createElement("img");
     this.specImg.className = "lqg-spec";
@@ -195,11 +231,17 @@ var LiquidGlass = class {
   /* ---------- Displacement + specular maps (height-field optical model) ---------- */
   generateMap() {
     const p = this.params;
-    const W = p.width, H = p.height;
-    const M = Math.max(16, Math.ceil(p.scale * (1 + clamp(p.chroma, 0, 0.95))) + 12);
+    const W = p.width,
+      H = p.height;
+    const M = Math.max(
+      16,
+      Math.ceil(p.scale * (1 + clamp(p.chroma, 0, 0.95))) + 12,
+    );
     this.margin = M;
-    const OW = W + 2 * M, OH = H + 2 * M;
-    const hw = W / 2, hh = H / 2;
+    const OW = W + 2 * M,
+      OH = H + 2 * M;
+    const hw = W / 2,
+      hh = H / 2;
     const rr = Math.min(p.radius, hw, hh);
     const bezel = Math.max(1, p.depth);
     const k = Math.max(1.2, p.curvature);
@@ -220,18 +262,22 @@ var LiquidGlass = class {
     const img = this.ctx.createImageData(mw, mh);
     const data = img.data;
     const N = mw * mh;
-    const rx = new Float32Array(N), ry = new Float32Array(N), sp = new Float32Array(N);
-    let maxAbs = 1e-6, maxSpec = 1e-6;
-    const la = p.specAngle * Math.PI / 180;
-    const Lx = Math.cos(la), Ly = -Math.sin(la);
+    const rx = new Float32Array(N),
+      ry = new Float32Array(N),
+      sp = new Float32Array(N);
+    let maxAbs = 1e-6,
+      maxSpec = 1e-6;
+    const la = (p.specAngle * Math.PI) / 180;
+    const Lx = Math.cos(la),
+      Ly = -Math.sin(la);
     const SHININESS = 4;
     const e = Math.max(0.75, 0.75 / res);
     const sdf = (x, y) => roundedRectSDF(x, y, hw, hh, rr);
     let idx = 0;
     for (let y = 0; y < mh; y++) {
       for (let x = 0; x < mw; x++, idx++) {
-        const px = (x + 0.5) / mw * OW - OW / 2;
-        const py = (y + 0.5) / mh * OH - OH / 2;
+        const px = ((x + 0.5) / mw) * OW - OW / 2;
+        const py = ((y + 0.5) / mh) * OH - OH / 2;
         const d = sdf(px, py);
         const din = -d;
         let mag = 0;
@@ -245,10 +291,14 @@ var LiquidGlass = class {
         gx /= gl;
         gy /= gl;
         const align = gx * Lx + gy * Ly;
-        const sv = Math.abs(mag) * (Math.pow(Math.max(0, align), SHININESS) + 0.3 * Math.pow(Math.max(0, -align), SHININESS));
+        const sv =
+          Math.abs(mag) *
+          (Math.pow(Math.max(0, align), SHININESS) +
+            0.3 * Math.pow(Math.max(0, -align), SHININESS));
         sp[idx] = sv;
         if (sv > maxSpec) maxSpec = sv;
-        const dx = -gx * mag, dy = -gy * mag;
+        const dx = -gx * mag,
+          dy = -gy * mag;
         rx[idx] = dx;
         ry[idx] = dy;
         const m = Math.max(Math.abs(dx), Math.abs(dy));
@@ -258,8 +308,8 @@ var LiquidGlass = class {
     let url = "";
     if (!WEBKIT) {
       for (let i = 0; i < N; i++) {
-        data[i * 4] = clamp(rx[i] / maxAbs * 0.5 + 0.5, 0, 1) * 255;
-        data[i * 4 + 1] = clamp(ry[i] / maxAbs * 0.5 + 0.5, 0, 1) * 255;
+        data[i * 4] = clamp((rx[i] / maxAbs) * 0.5 + 0.5, 0, 1) * 255;
+        data[i * 4 + 1] = clamp((ry[i] / maxAbs) * 0.5 + 0.5, 0, 1) * 255;
         data[i * 4 + 2] = 128;
         data[i * 4 + 3] = 255;
       }
@@ -314,7 +364,9 @@ var LiquidGlass = class {
     return fe;
   }
   updateScales() {
-    const s = this.params.scale, c = clamp(this.params.chroma, 0, 0.95), base = 2 * s;
+    const s = this.params.scale,
+      c = clamp(this.params.chroma, 0, 0.95),
+      base = 2 * s;
     this.dispR.setAttribute("scale", (base * (1 + c)).toFixed(2));
     this.dispG.setAttribute("scale", base.toFixed(2));
     this.dispB.setAttribute("scale", (base * (1 - c)).toFixed(2));
@@ -327,7 +379,8 @@ var LiquidGlass = class {
     if (WEBKIT) return;
     this._seq++;
     const el = this._dragMode ? this.filterDrag : this.filterFull;
-    const id = (this._dragMode ? this.uid + "-drag-" : this.uid + "-full-") + this._seq;
+    const id =
+      (this._dragMode ? this.uid + "-drag-" : this.uid + "-full-") + this._seq;
     el.setAttribute("id", id);
     this.lensEl.style.filter = this._lite ? "none" : "url(#" + id + ")";
   }
@@ -339,7 +392,8 @@ var LiquidGlass = class {
      so the clone shares the pixel grid with the original (avoids text shimmer). */
   placeLens() {
     const M = this.margin;
-    const lx = Math.round(this.lensX) - M, ly = Math.round(this.lensY) - M;
+    const lx = Math.round(this.lensX) - M,
+      ly = Math.round(this.lensY) - M;
     this.lensEl.style.left = lx + "px";
     this.lensEl.style.top = ly + "px";
     this.lensInner.style.left = this.bgX - lx + "px";
@@ -389,11 +443,13 @@ var LiquidGlass = class {
     const ky = 1 + (p.height / Math.max(1, p.height - 2 * s) - 1) * c;
     const st = this.lensInner.style;
     st.transformOrigin = `${this.lensX + p.width / 2 - this.bgX}px ${this.lensY + p.height / 2 - this.bgY}px`;
-    const kMin = WEBKIT ? 0.7 : 0.6, kMax = WEBKIT ? 1.35 : 1.6;
+    const kMin = WEBKIT ? 0.7 : 0.6,
+      kMax = WEBKIT ? 1.35 : 1.6;
     st.transform = `scale(${clamp(kx, kMin, kMax).toFixed(4)}, ${clamp(ky, kMin, kMax).toFixed(4)})`;
   }
   _applyVars() {
-    const g = this.glassEl.style, p = this.params;
+    const g = this.glassEl.style,
+      p = this.params;
     g.setProperty("--lqg-blur", p.blur + "px");
     g.setProperty("--lqg-glow", String(p.glow));
     g.setProperty("--lqg-tint", String(p.tint));
@@ -440,7 +496,8 @@ var LiquidGlass = class {
    */
   attach(el, padding) {
     if (padding != null) {
-      const p = typeof padding === "number" ? { x: padding, y: padding } : padding;
+      const p =
+        typeof padding === "number" ? { x: padding, y: padding } : padding;
       this._padX = p.x;
       this._padY = p.y;
     }
@@ -499,7 +556,8 @@ var LiquidGlass = class {
       if (this._syncRaf) return;
       this._syncRaf = requestAnimationFrame(() => {
         this._syncRaf = 0;
-        const px2 = this.bgX, py2 = this.bgY;
+        const px2 = this.bgX,
+          py2 = this.bgY;
         this._syncBg();
         if (this.bgX !== px2 || this.bgY !== py2) this._kickLite();
         this.placeLens();
@@ -508,7 +566,12 @@ var LiquidGlass = class {
     window.addEventListener("scroll", this._onSync, true);
     window.addEventListener("resize", this._onSync);
     if (!this.draggable) return;
-    let dragging = false, ox = 0, oy = 0, px = 0, py = 0, raf = 0;
+    let dragging = false,
+      ox = 0,
+      oy = 0,
+      px = 0,
+      py = 0,
+      raf = 0;
     this.glassEl.addEventListener("pointerdown", (ev) => {
       ev.preventDefault();
       dragging = true;
@@ -521,10 +584,11 @@ var LiquidGlass = class {
       if (!dragging) return;
       px = ev.clientX - ox;
       py = ev.clientY - oy;
-      if (!raf) raf = requestAnimationFrame(() => {
-        raf = 0;
-        this.moveTo(px, py);
-      });
+      if (!raf)
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          this.moveTo(px, py);
+        });
     });
     const up = () => {
       if (!dragging) return;
@@ -554,7 +618,7 @@ var ATTRS = {
   edge: "edge",
   "spec-angle": "specAngle",
   tint: "tint",
-  "tint-color": "tintColor"
+  "tint-color": "tintColor",
 };
 var LiquidGlassElement = null;
 if (typeof HTMLElement !== "undefined") {
@@ -564,7 +628,16 @@ if (typeof HTMLElement !== "undefined") {
       this.glass = null;
     }
     static get observedAttributes() {
-      return Object.keys(ATTRS).concat(["background", "draggable", "x", "y", "z-index", "attach-to", "attach-padding", "lite-motion"]);
+      return Object.keys(ATTRS).concat([
+        "background",
+        "draggable",
+        "x",
+        "y",
+        "z-index",
+        "attach-to",
+        "attach-padding",
+        "lite-motion",
+      ]);
     }
     connectedCallback() {
       if (this.glass) return;
@@ -587,7 +660,7 @@ if (typeof HTMLElement !== "undefined") {
         zIndex: zIdx != null ? parseInt(zIdx, 10) : void 0,
         x: num("x"),
         y: num("y"),
-        tintColor: at("tint-color") || void 0
+        tintColor: at("tint-color") || void 0,
       };
       for (const attr of Object.keys(ATTRS)) {
         if (attr === "tint-color") continue;
@@ -611,30 +684,37 @@ if (typeof HTMLElement !== "undefined") {
       if (name === "attach-to" || name === "attach-padding") {
         const sel = this.getAttribute("attach-to");
         const pad = this.getAttribute("attach-padding");
-        this.glass.attach(sel ? document.querySelector(sel) : null, pad != null ? parseFloat(pad) : void 0);
+        this.glass.attach(
+          sel ? document.querySelector(sel) : null,
+          pad != null ? parseFloat(pad) : void 0,
+        );
         return;
       }
       if (name === "x" || name === "y") {
-        const x = this.getAttribute("x"), y = this.getAttribute("y");
-        this.glass.moveTo(x != null ? parseFloat(x) : this.glass.lensX, y != null ? parseFloat(y) : this.glass.lensY);
+        const x = this.getAttribute("x"),
+          y = this.getAttribute("y");
+        this.glass.moveTo(
+          x != null ? parseFloat(x) : this.glass.lensX,
+          y != null ? parseFloat(y) : this.glass.lensY,
+        );
         return;
       }
       if (val == null || !(name in ATTRS)) return;
-      this.glass.set({ [ATTRS[name]]: name === "tint-color" ? val : parseFloat(val) });
+      this.glass.set({
+        [ATTRS[name]]: name === "tint-color" ? val : parseFloat(val),
+      });
     }
   }
   LiquidGlassElement = LiquidGlassElementImpl;
-  if (typeof customElements !== "undefined" && !customElements.get("liquid-glass")) {
+  if (
+    typeof customElements !== "undefined" &&
+    !customElements.get("liquid-glass")
+  ) {
     customElements.define("liquid-glass", LiquidGlassElementImpl);
   }
 }
 var vitrio_default = LiquidGlass;
-export {
-  DEFAULTS,
-  LiquidGlass,
-  LiquidGlassElement,
-  vitrio_default as default
-};
+export { DEFAULTS, LiquidGlass, LiquidGlassElement, vitrio_default as default };
 /*!
  * vitrio — Cross-browser liquid-glass refraction (Chrome / Safari / Firefox)
  *
